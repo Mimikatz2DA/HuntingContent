@@ -1,0 +1,27 @@
+event_simpleName=Asep* CurrentVersion\\\\Run RegStringValue!=""
+| fillnull value=NULL
+| eval RegStringValueL=lower(RegStringValue)
+| rex field=RegStringValueL mode=sed "s/\\\\users\\\\[^\\\\]+/\\\\users\\\\<RexUserName>/g" 
+| rex field=RegStringValueL mode=sed "s/\/\S{8}\-\S{4}\-\S{4}\-\S{4}\-\S{12}\//<GUID>/g" 
+| rex field=RegStringValueL ".*(?<rexExt>\.[a-z]{2,3}\d?)"
+| eval scoreExt=if(like(rexExt, "%exe%"), "0", "1")
+| eval refLnk=if(like(rexExt, "%lnk%"), "3", "0")
+| eval refVbs=if(like(rexExt, "%vbs%"), "3", "0")
+| eval refPs1=if(like(rexExt, "%ps1%"), "2", "0")
+| eval refBat=if(like(rexExt, "%bat%"), "2", "0")
+| eval refXml=if(like(rexExt, "%xml%"), "2", "0")
+| eval refDll=if(like(rexExt, "%dll%"), "1", "0")
+| eval refJs=if(like(rexExt, "%js%"), "2", "0")
+| eval refCscript=if(like(RegStringValueL, "%cscript%"), "3", "0")
+| eval refWscript=if(like(RegStringValueL, "%wscript%"), "3", "0")
+| eval refCmd=if(like(RegStringValueL, "%cmd.exe%"), "2", "0")
+| eval refPS=if(like(RegStringValueL, "%powershell.exe%"), "2", "0")
+| eval refHTTP=if(like(RegStringValueL, "%http%"), "3", "0")
+| eval refShare=if(like(RegStringValueL, "%\\\\%"), "2", "0")
+| eval refRegsvr=if(like(RegStringValueL, "%regsvr32%"), "1", "0")
+| eval refTemp=if(like(RegStringValueL, "%program files%"), "0", "2")
+| eval susScore=scoreExt+refLnk+refVbs+refPs1+refBat+refXml+refDll+refCmd+refPS+refHTTP+refShare+refRegsvr+refCscript+refWscript+refTemp+refJs
+| stats values(susScore) dc(ComputerName) AS PCCnt dc(UserName) AS UsrCnt count by RegValueName RegStringValueL
+| rename values(*) AS * 
+| where PCCnt < 5
+| sort - susScore
