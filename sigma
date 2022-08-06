@@ -1,0 +1,340 @@
+(source="WinEventLog:Application" Provider_Name="Microsoft-Windows-Audit-CVE")
+(source="WinEventLog:Application" ("HTool-" OR "Hacktool" OR "ASP/Backdoor" OR "JSP/Backdoor" OR "PHP/Backdoor" OR "Backdoor.ASP" OR "Backdoor.JSP" OR "Backdoor.PHP" OR "Webshell" OR "Portscan" OR "Mimikatz" OR ".WinCred." OR "PlugX" OR "Korplug" OR "Pwdump" OR "Chopper" OR "WmiExec" OR "Xscan" OR "Clearlog" OR "ASPXSpy" OR "Ransom" OR "Filecoder" OR "CobaltStr" OR "PWCrack" OR "DumpCreds" OR "MPreter" OR "Koadic" OR "Packed.Generic.347" OR "COBEACON" OR "Cometer" OR "Keylogger" OR "MeteTool") NOT (("Keygen" OR "Crack" OR "anti_ransomware_service.exe" OR "cyber-protect-service.exe") OR (Level="4")))
+(source="WinEventLog:Application" Provider_Name="MsiInstaller" (EventCode="11724" OR EventCode="1034"))
+(source="WinEventLog:Application" Provider_Name="MSSQLSERVER" EventCode="33205" Data="*object_name:sysadmin*" Data="*statement:alter server role [sysadmin] add member *")
+(source="WinEventLog:Application" Provider_Name="MSSQLSERVER" EventCode="33205" (Data="*statement:ALTER SERVER AUDIT*" OR Data="*statement:DROP SERVER AUDIT*"))
+(source="WinEventLog:Application" Provider_Name="MSSQLSERVER" EventCode="33205" Data="*object_name:sp_procoption*" Data="*statement:EXEC*")
+(source="WinEventLog:Application" Provider_Name="MSSQLSERVER" EventCode="33205" Data="*object_name:xp_cmdshell*" Data="*statement:EXEC*")
+(source="WinEventLog:Application" Provider_Name="MSSQLSERVER" EventCode="15457" Data="*xp_cmdshell*")
+(source="WinEventLog:Application" EventCode="1033" Provider_Name="MsiInstaller" Message="*AteraAgent*")
+(source="WinEventLog:Application" EventCode="524" Provider_Name="Microsoft-Windows-Backup")
+(source="WinEventLog:Application" ((Provider_Name="Application Error" EventCode="1000") OR (Provider_Name="Windows Error Reporting" EventCode="1001")) (Data="*MsMpEng.exe*" Data="*mpengine.dll*"))
+(source="WinEventLog:Application" (EventCode="4" Provider_Name="MSExchange Control Panel" Level="Error") "&__VIEWSTATE=")
+(source="WinEventLog:Application" EventCode="1033" Provider_Name="MsiInstaller" Data="*test pkg*")
+((source="WinEventLog:Microsoft-Windows-AppLocker/MSI and Script" OR source="WinEventLog:Microsoft-Windows-AppLocker/EXE and DLL" OR source="WinEventLog:Microsoft-Windows-AppLocker/Packaged app-Deployment" OR source="WinEventLog:Microsoft-Windows-AppLocker/Packaged app-Execution") (EventCode="8004" OR EventCode="8007" OR EventCode="8022" OR EventCode="8025")) | table PolicyName,RuleId,RuleName,TargetUser,TargetProcessId,FilePath,FileHash,Fqbn
+(source="WinEventLog:Microsoft-Windows-Bits-Client/Operational" EventCode="16403" (RemoteName="*raw.githubusercontent.com*" OR RemoteName="*gist.githubusercontent.com*" OR RemoteName="*pastebin.com*" OR RemoteName="*cdn.discordapp.com/attachments/*" OR RemoteName="*mediafire.com*" OR RemoteName="*mega.nz*" OR RemoteName="*ddns.net*" OR RemoteName="*.paste.ee*" OR RemoteName="*.hastebin.com*" OR RemoteName="*.ghostbin.co/*" OR RemoteName="*ufile.io*" OR RemoteName="*storage.googleapis.com*"))
+(source="WinEventLog:Microsoft-Windows-Bits-Client/Operational" (EventCode="16403" (LocalName="*.ps1" OR LocalName="*.exe" OR LocalName="*.vbs" OR LocalName="*.bat")) NOT (LocalName="*\\AppData\\*" RemoteName="*.com*"))
+(source="WinEventLog:Microsoft-Windows-Bits-Client/Operational" EventCode="16403" (LocalName="*C:\\Users\\Public\\*" OR LocalName="*%public%*" OR LocalName="*\\Desktop\\*"))
+(source="WinEventLog:Microsoft-Windows-Bits-Client/Operational" EventCode="3" (processPath="*\\powershell.exe" OR processPath="*\\pwsh.exe"))
+(source="WinEventLog:Microsoft-Windows-Bits-Client/Operational" EventCode="3" processPath="*\\bitsadmin.exe")
+(source="WinEventLog:Microsoft-Windows-Bits-Client/Operational" EventCode="16403" NOT ((RemoteName="*.com*" OR RemoteName="*.azureedge.net*" OR RemoteName="*.sfx.ms*" OR RemoteName="*download.mozilla.org*")))
+(source="WinEventLog:Microsoft-Windows-CodeIntegrity/Operational" "that did not meet the Microsoft signing level requirements")
+(EventCode="257" (QNAME="asyspy256.ddns.net" OR QNAME="hotkillmail9sddcc.ddns.net" OR QNAME="rosaf112.ddns.net" OR QNAME="cvdfhjh1231.myftp.biz" OR QNAME="sz2016rose.ddns.net" OR QNAME="dffwescwer4325.myftp.biz" OR QNAME="cvdfhjh1231.ddns.net"))
+(EventCode="150" OR EventCode="770")
+(source="WinEventLog:Microsoft-Windows-DriverFrameworks-UserMode/Operational" (EventCode="2003" OR EventCode="2100" OR EventCode="2102"))
+(source="WinEventLog:Microsoft-Windows-Windows Firewall With Advanced Security/Firewall" EventCode="2004" NOT ((Action="2") OR ((ApplicationPath="C:\\Program Files\\*" OR ApplicationPath="C:\\Program Files (x86)\\*") OR ModifyingApplication="C:\\Windows\\System32\\oobe\\Setup.exe" OR ModifyingApplication="C:\\Windows\\WinSxS\\*" OR (ModifyingApplication="C:\\Windows\\SysWOW64\\msiexec.exe" OR ModifyingApplication="C:\\Windows\\System32\\svchost.exe" OR ModifyingApplication="C:\\Windows\\System32\\dllhost.exe" OR ModifyingApplication="C:\\Program Files\\Windows Defender\\MsMpEng.exe"))))
+(source="WinEventLog:Microsoft-Windows-Windows Firewall With Advanced Security/Firewall" EventCode="2005" NOT (((ModifyingApplication="C:\\Program Files (x86)\\*" OR ModifyingApplication="C:\\Program Files\\*"))))
+(source="WinEventLog:Microsoft-Windows-Windows Firewall With Advanced Security/Firewall" (EventCode="2006" OR EventCode="2033") NOT (ModifyingApplication="C:\\Windows\\System32\\svchost.exe" OR (ModifyingApplication="C:\\Program Files\\*" OR ModifyingApplication="C:\\Program Files (x86)\\*")))
+(source="WinEventLog:Microsoft-Windows-Windows Firewall With Advanced Security/Firewall" EventCode="2009")
+(source="WinEventLog:Microsoft-Windows-Windows Firewall With Advanced Security/Firewall" EventCode="2032")
+(source="WinEventLog:Microsoft-Windows-Windows Firewall With Advanced Security/Firewall" (EventCode="2002" OR EventCode="2003" OR EventCode="2008"))
+(((EventCode="30" (SearchFilter="*(groupType:1.2.840.113556.1.4.803:=2147483648)*" OR SearchFilter="*(groupType:1.2.840.113556.1.4.803:=2147483656)*" OR SearchFilter="*(groupType:1.2.840.113556.1.4.803:=2147483652)*" OR SearchFilter="*(groupType:1.2.840.113556.1.4.803:=2147483650)*" OR SearchFilter="*(sAMAccountType=805306369)*" OR SearchFilter="*(sAMAccountType=805306368)*" OR SearchFilter="*(sAMAccountType=536870913)*" OR SearchFilter="*(sAMAccountType=536870912)*" OR SearchFilter="*(sAMAccountType=268435457)*" OR SearchFilter="*(sAMAccountType=268435456)*" OR SearchFilter="*(objectCategory=groupPolicyContainer)*" OR SearchFilter="*(objectCategory=organizationalUnit)*" OR SearchFilter="*(objectCategory=Computer)*" OR SearchFilter="*(objectCategory=nTDSDSA)*" OR SearchFilter="*(objectCategory=server)*" OR SearchFilter="*(objectCategory=domain)*" OR SearchFilter="*(objectCategory=person)*" OR SearchFilter="*(objectCategory=group)*" OR SearchFilter="*(objectCategory=user)*" OR SearchFilter="*(objectClass=trustedDomain)*" OR SearchFilter="*(objectClass=computer)*" OR SearchFilter="*(objectClass=server)*" OR SearchFilter="*(objectClass=group)*" OR SearchFilter="*(objectClass=user)*" OR SearchFilter="*(primaryGroupID=521)*" OR SearchFilter="*(primaryGroupID=516)*" OR SearchFilter="*(primaryGroupID=515)*" OR SearchFilter="*(primaryGroupID=512)*" OR SearchFilter="*Domain Admins*")) NOT (EventCode="30" (SearchFilter="*(domainSid=*)*" OR SearchFilter="*(objectSid=*)*"))) OR (EventCode="30" (SearchFilter="*(userAccountControl:1.2.840.113556.1.4.803:=4194304)*" OR SearchFilter="*(userAccountControl:1.2.840.113556.1.4.803:=2097152)*" OR SearchFilter="*!(userAccountControl:1.2.840.113556.1.4.803:=1048574)*" OR SearchFilter="*(userAccountControl:1.2.840.113556.1.4.803:=524288)*" OR SearchFilter="*(userAccountControl:1.2.840.113556.1.4.803:=65536)*" OR SearchFilter="*(userAccountControl:1.2.840.113556.1.4.803:=8192)*" OR SearchFilter="*(userAccountControl:1.2.840.113556.1.4.803:=544)*" OR SearchFilter="*!(UserAccountControl:1.2.840.113556.1.4.803:=2)*" OR SearchFilter="*msDS-AllowedToActOnBehalfOfOtherIdentity*" OR SearchFilter="*msDS-AllowedToDelegateTo*" OR SearchFilter="*(accountExpires=9223372036854775807)*" OR SearchFilter="*(accountExpires=0)*" OR SearchFilter="*(adminCount=1)*" OR SearchFilter="*ms-MCS-AdmPwd*")))
+(source="WinEventLog:MSExchange Management" (EventCode="6" OR EventCode="8") (Data="*Cmdlet failed. Cmdlet Get-App, *" OR Data="*Task Get-App throwing unhandled exception: System.InvalidCastException:*"))
+(source="WinEventLog:MSExchange Management" ("OabVirtualDirectory" " -ExternalUrl ") ("eval(request" OR "http://f/<script" OR "\"unsafe\"};" OR "function Page_Load()"))
+(source="WinEventLog:MSExchange Management" ("New-ExchangeCertificate" " -GenerateRequest" " -BinaryEncoded" " -RequestFile") ("\\\\localhost\\C$" OR "\\\\127.0.0.1\\C$" OR "C:\\inetpub" OR ".aspx"))
+(source="WinEventLog:MSExchange Management" ((("New-MailboxExportRequest" " -Mailbox ") ("-FilePath \"\\\\localhost\\C$" OR "-FilePath \"\\\\127.0.0.1\\C$" OR ".aspx")) OR ("New-ManagementRoleAssignment" " -Role \"Mailbox Import Export\"" " -User ")))
+(source="WinEventLog:MSExchange Management" "Remove-MailboxExportRequest" " -Identity " " -Confirm \"False\"")
+(source="WinEventLog:MSExchange Management" "Install-TransportAgent") | table AssemblyPath
+(source="WinEventLog:MSExchange Management" EventCode="6" Data="*Install-TransportAgent*") | table AssemblyPath
+(source="WinEventLog:MSExchange Management" "Set-OabVirtualDirectory" "ExternalUrl" "Page_Load" "script")
+(source="WinEventLog:Microsoft-Windows-NTLM/Operational" EventCode="8002" ProcessName="*")
+(source="WinEventLog:Microsoft-Windows-NTLM/Operational" EventCode="8004" (WorkstationName="Rdesktop" OR WorkstationName="Remmina" OR WorkstationName="Freerdp" OR WorkstationName="Windows7" OR WorkstationName="Windows8" OR WorkstationName="Windows2012" OR WorkstationName="Windows2016" OR WorkstationName="Windows2019"))
+(source="WinEventLog:Microsoft-Windows-NTLM/Operational" EventCode="8001" TargetName="TERMSRV*") | table Computer,UserName,DomainName,TargetName
+(source="WinEventLog:Microsoft-Windows-PrintService/Admin" (((EventCode="808" OR EventCode="4909") (ErrorCode="0x45A" OR ErrorCode="0x7e")) OR ("The print spooler failed to load a plug-in module" OR "MyExploit.dll" OR "evil.dll" OR "\\addCube.dll" OR "\\rev.dll" OR "\\rev2.dll" OR "\\main64.dll" OR "\\mimilib.dll" OR "\\mimispool.dll")) NOT (" registration timed out")) | table PluginDllName
+(source="WinEventLog:Microsoft-Windows-PrintService/Operational" EventCode="316" ("UNIDRV.DLL, kernelbase.dll, " OR " 123 " OR " 1234 " OR "mimispool")) | table DriverAdded
+(source="WinEventLog:Security" ((EventCode="4656" OR EventCode="4663") ObjectType="Key" ObjectName="\\REGISTRY\\MACHINE\\SOFTWARE\\Microsoft\\Microsoft Online\\Reporting\\MonitoringAgent") NOT ((ProcessName="*Microsoft.Identity.Health.Adfs.DiagnosticsAgent.exe*" OR ProcessName="*Microsoft.Identity.Health.Adfs.InsightsService.exe*" OR ProcessName="*Microsoft.Identity.Health.Adfs.MonitoringAgent.Startup.exe*" OR ProcessName="*Microsoft.Identity.Health.Adfs.PshSurrogate.exe*" OR ProcessName="*Microsoft.Identity.Health.Common.Clients.ResourceMonitor.exe*")))
+(source="WinEventLog:Security" ((EventCode="4656" OR EventCode="4663") ObjectType="Key" ObjectName="\\REGISTRY\\MACHINE\\SOFTWARE\\Microsoft\\ADHealthAgent") NOT ((ProcessName="*Microsoft.Identity.Health.Adfs.DiagnosticsAgent.exe*" OR ProcessName="*Microsoft.Identity.Health.Adfs.InsightsService.exe*" OR ProcessName="*Microsoft.Identity.Health.Adfs.MonitoringAgent.Startup.exe*" OR ProcessName="*Microsoft.Identity.Health.Adfs.PshSurrogate.exe*" OR ProcessName="*Microsoft.Identity.Health.Common.Clients.ResourceMonitor.exe*")))
+(source="WinEventLog:Security" (EventCode="5136" AttributeLDAPDisplayName="ntSecurityDescriptor" (AttributeValue="*1131f6ad-9c07-11d1-f79f-00c04fc2dcd2*" OR AttributeValue="*1131f6aa-9c07-11d1-f79f-00c04fc2dcd2*" OR AttributeValue="*89e95b76-444d-4c62-991a-0facbeda640c*")) NOT (((ObjectType="dnsNode" OR ObjectType="dnsZoneScope"))))
+(source="WinEventLog:Security" ((EventCode="4661" (ObjectType="SAM_USER" OR ObjectType="SAM_GROUP")) ((ObjectName="*-512" OR ObjectName="*-502" OR ObjectName="*-500" OR ObjectName="*-505" OR ObjectName="*-519" OR ObjectName="*-520" OR ObjectName="*-544" OR ObjectName="*-551" OR ObjectName="*-555") OR ObjectName="*admin*")) NOT (SubjectUserName="*$"))
+(source="WinEventLog:Security" ((EventCode="4898" TemplateContent="*CT_FLAG_ENROLLEE_SUPPLIES_SUBJECT*") OR (EventCode="4899" NewTemplateContent="*CT_FLAG_ENROLLEE_SUPPLIES_SUBJECT*")))
+(source="WinEventLog:Security" ((EventCode="4898" (TemplateContent="*1.3.6.1.5.5.7.3.2*" OR TemplateContent="*1.3.6.1.5.2.3.4*" OR TemplateContent="*1.3.6.1.4.1.311.20.2.2*" OR TemplateContent="*2.5.29.37.0*") TemplateContent="*CT_FLAG_ENROLLEE_SUPPLIES_SUBJECT*") OR (EventCode="4899" (NewTemplateContent="*1.3.6.1.5.5.7.3.2*" OR NewTemplateContent="*1.3.6.1.5.2.3.4*" OR NewTemplateContent="*1.3.6.1.4.1.311.20.2.2*" OR NewTemplateContent="*2.5.29.37.0*") NewTemplateContent="*CT_FLAG_ENROLLEE_SUPPLIES_SUBJECT*")))
+(source="WinEventLog:Security" EventCode="4624" LogonType="10" AuthenticationPackageName="Negotiate" TargetUserName="Admin*")
+(source="WinEventLog:Security" (EventCode="5140" ShareName="Admin$") NOT (SubjectUserName="*$"))
+(source="WinEventLog:Security" EventCode="4662" ObjectServer="DS" AccessMask="0x40000" (ObjectType="19195a5b-6da0-11d0-afd3-00c04fd930c9" OR ObjectType="domainDNS"))
+(source="WinEventLog:Security" (EventCode="4662" AccessMask="0x100" (Properties="*1131f6aa-9c07-11d1-f79f-00c04fc2dcd2*" OR Properties="*1131f6ad-9c07-11d1-f79f-00c04fc2dcd2*" OR Properties="*89e95b76-444d-4c62-991a-0facbeda640c*")) NOT (SubjectUserName="*$" OR SubjectUserName="MSOL_*")) | table ComputerName,SubjectDomainName,SubjectUserName
+(source="WinEventLog:Security" (EventCode="4662" ObjectType="*bf967aba-0de6-11d0-a285-00aa003049e2*") NOT (SubjectUserName="*$" OR SubjectUserName="MSOL_*"))
+(source="WinEventLog:Security" EventCode="4704" PrivilegeList="*SeEnableDelegationPrivilege*")
+An unsupported feature is required for this Sigma rule (..\rules\windows\builtin\security\win_invoke_obfuscation_obfuscated_iex_services_security.yml): Type modifier 're' is not supported by backend
+(source="WinEventLog:Security" ((EventCode="4738" NOT (AllowedToDelegateTo="-" OR NOT AllowedToDelegateTo="*")) OR ((EventCode="5136" AttributeLDAPDisplayName="msDS-AllowedToDelegateTo") OR (EventCode="5136" ObjectClass="user" AttributeLDAPDisplayName="servicePrincipalName") OR (EventCode="5136" AttributeLDAPDisplayName="msDS-AllowedToActOnBehalfOfOtherIdentity"))))
+(source="WinEventLog:Security" EventCode="4738" ((((NewUacValue="*8???" OR NewUacValue="*9???" OR NewUacValue="*A???" OR NewUacValue="*B???" OR NewUacValue="*C???" OR NewUacValue="*D???" OR NewUacValue="*E???" OR NewUacValue="*F???") NOT ((OldUacValue="*8???" OR OldUacValue="*9???" OR OldUacValue="*A???" OR OldUacValue="*B???" OR OldUacValue="*C???" OR OldUacValue="*D???" OR OldUacValue="*E???" OR OldUacValue="*F???"))) OR ((NewUacValue="*1????" OR NewUacValue="*3????" OR NewUacValue="*5????" OR NewUacValue="*7????" OR NewUacValue="*9????" OR NewUacValue="*B????" OR NewUacValue="*D????" OR NewUacValue="*F????") NOT ((OldUacValue="*1????" OR OldUacValue="*3????" OR OldUacValue="*5????" OR OldUacValue="*7????" OR OldUacValue="*9????" OR OldUacValue="*B????" OR OldUacValue="*D????" OR OldUacValue="*F????")))) OR ((NewUacValue="*8??" OR NewUacValue="*9??" OR NewUacValue="*A??" OR NewUacValue="*B??" OR NewUacValue="*C??" OR NewUacValue="*D??" OR NewUacValue="*E??" OR NewUacValue="*F??") NOT ((OldUacValue="*8??" OR OldUacValue="*9??" OR OldUacValue="*A??" OR OldUacValue="*B??" OR OldUacValue="*C??" OR OldUacValue="*D??" OR OldUacValue="*E??" OR OldUacValue="*F??")))))
+(source="WinEventLog:Security" ((EventCode="4776" Workstation="RULER") OR ((EventCode="4624" OR EventCode="4625") WorkstationName="RULER")))
+(source="WinEventLog:Security" EventCode="4698" (TaskName="SC Scheduled Scan" OR TaskName="UpdatMachine"))
+(source="WinEventLog:Security" EventCode="4701" TaskName="\\Microsoft\\Windows\\Defrag\\ScheduledDefrag")
+(source="WinEventLog:Security" EventCode="4799" TargetUserName="Administr*" CallerProcessName="*\\checkadmin.exe")
+(source="WinEventLog:Security" EventCode="5145" ShareName="\\\*\\IPC$" RelativeTargetName="atsvc" Accesses="*WriteData*")
+(source="WinEventLog:Security" (EventCode="4657" OR EventCode="4656" OR EventCode="4663") (ObjectName="*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\CapabilityAccessManager\\ConsentStore\\microphone\\NonPackaged*" OR ObjectName="*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\CapabilityAccessManager\\ConsentStore\\webcam\\NonPackaged*"))
+(source="WinEventLog:Security" EventCode="5145" ShareName="\\\*\\IPC$" RelativeTargetName="spoolss")
+(source="WinEventLog:Security" (EventCode="5145" RelativeTargetName="*\\Internet Explorer\\iertutil.dll") NOT (SubjectUserName="*$"))
+(source="WinEventLog:Security" (EventCode="4662" (Properties="*Replicating Directory Changes All*" OR Properties="*1131f6ad-9c07-11d1-f79f-00c04fc2dcd2*" OR Properties="*1131f6aa-9c07-11d1-f79f-00c04fc2dcd2*" OR Properties="*9923a32a-3607-11d2-b9be-0000f87a36b2*" OR Properties="*89e95b76-444d-4c62-991a-0facbeda640c*") AccessMask="0x100") NOT ((SubjectDomainName="Window Manager") OR ((SubjectUserName="NT AUT*" OR SubjectUserName="MSOL_*")) OR (SubjectUserName="*$")))
+(source="WinEventLog:Security" (EventCode="4657" OR EventCode="4656" OR EventCode="4660" OR EventCode="4663") ObjectName="*\\Microsoft\\Windows Defender\\Exclusions\\*")
+(source="WinEventLog:Security" EventCode="4624" LogonType="9" TargetOutboundUserName="thisisnotvaliduser")
+(source="WinEventLog:Security" EventCode="4719" (AuditPolicyChanges="*%%8448*" OR AuditPolicyChanges="*%%8450*"))
+(source="WinEventLog:Security" EventCode="4662" ObjectType="SecretObject" AccessMask="0x2" ObjectName="*BCKUPKEY*")
+(source="WinEventLog:Security" EventCode="4692") | table ComputerName,SubjectDomainName,SubjectUserName
+(source="WinEventLog:Security" EventCode="4657" ObjectName="*\\SOFTWARE\\Microsoft\\.NETFramework" ObjectValueName="ETWEnabled" NewValue="0")
+(source="WinEventLog:Security" EventCode="1102" Provider_Name="Microsoft-Windows-Eventlog") | table SubjectLogonId,SubjectUserName,SubjectUserSid,SubjectDomainName
+(source="WinEventLog:Security" EventCode="5145" ShareName="\\\*\\IPC$" RelativeTargetName="spoolss" AccessMask="0x3" ObjectType="File")
+(source="WinEventLog:Security" ((EventCode="6416" ClassName="DiskDrive") OR DeviceDescription="USB Mass Storage Device"))
+(source="WinEventLog:Security" EventCode="5156" (DestinationPort="3268" OR DestinationPort="3269")) | eventstats count as val by SourceAddress| search val > 2000
+(source="WinEventLog:Security" EventCode="5145" ShareName="\\\*\\SYSVOL" RelativeTargetName="*ScheduledTasks.xml" (Accesses="*WriteData*" OR Accesses="*%%4417*"))
+(source="WinEventLog:Security" EventCode="4720" TargetUserName="*$") | table EventCode,AccountName
+(source="WinEventLog:Security" EventCode="4697" ServiceName="HybridConnectionManager" ServiceFileName="*HybridConnectionManager*")
+(source="WinEventLog:Security" EventCode="5145" ShareName="\\\*\\IPC$" (RelativeTargetName="*RemCom_stdint*" OR RelativeTargetName="*RemCom_stdoutt*" OR RelativeTargetName="*RemCom_stderrt*"))
+(source="WinEventLog:Security" EventCode="5145" ShareName="\\\*\\ADMIN$" RelativeTargetName="*SYSTEM32\\*" RelativeTargetName="*.tmp*")
+(source="WinEventLog:Security" Provider_Name="Microsoft-Windows-Security-Auditing" EventCode="4697" ServiceFileName="*cmd*" ServiceFileName="*&&*" ServiceFileName="*clipboard]::*")
+
+C:\Users\Redteam\Downloads\sigma-master\sigma-master\tools>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
