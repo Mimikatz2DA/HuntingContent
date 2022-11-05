@@ -33,7 +33,7 @@ index=main event_simpleName=ProcessRollup2 event_platform=Win
 
 Less Resource Intensive:
 ```
-index=main event_simpleName=ProcessRollup2 event_platform=Win UserSid_readable!=S-1-5-18
+index=main event_simpleName=ProcessRollup2 event_platform=Win UserSid_readable!=S-1-5-18 UserName!=""
     [ search index=main event_platform=Win event_simpleName=InjectedThread ProductType=1
     | search ContextProcessId_decimal!="" 
     | rename ContextProcessId_decimal AS TargetProcessId_decimal 
