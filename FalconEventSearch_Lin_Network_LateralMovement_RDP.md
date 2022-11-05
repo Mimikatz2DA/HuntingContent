@@ -10,7 +10,8 @@ Legitimate rdp sourced from Linux systems by internal employees
 Investigation recommendations:
 Identify what was performed on the remote endpoint.
 
-```index=main event_simpleName=ProcessRollup2 event_platform=Lin 
+```
+index=main event_simpleName=ProcessRollup2 event_platform=Lin 
     [search  index=main event_simpleName=NetworkConnectIP4 event_platform=Lin RPort=3389
 | rename ContextProcessId_decimal AS TargetIdProcessId_decimal 
 | fields TargetProcessId_decimal  aid ComputerName ] 
