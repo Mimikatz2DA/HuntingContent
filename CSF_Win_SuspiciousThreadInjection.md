@@ -31,3 +31,12 @@ index=main event_simpleName=ProcessRollup2 event_platform=Win
 | where SrcProcessUsrSid != InjectedProcessUsrSid
 ```
 
+Less Resource Intensive:
+```
+index=main event_simpleName=ProcessRollup2 event_platform=Win UserSid_readable!=S-1-5-18
+    [ search index=main event_platform=Win event_simpleName=InjectedThread ProductType=1
+    | search ContextProcessId_decimal!="" 
+    | rename ContextProcessId_decimal AS TargetProcessId_decimal 
+    | fields aid ComputerName TargetProcessId_decimal] 
+| table _time ComputerName FileName  FilePath  CommandLine  UserName
+```
