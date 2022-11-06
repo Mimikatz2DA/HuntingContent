@@ -2,8 +2,8 @@ Purpose:
 To identify process injection from a non system account to a system level process. This could indicate an attacker has escalated privileges to a trusted system process.
 
 False Positives:
-Internal security testing
-Legitmate applications / processes
+Internal security testing /
+Legitmate applications /
 Unknown
 
 Investigation recommendations:
