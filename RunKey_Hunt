@@ -1,4 +1,9 @@
-
+LogScale:
+"#event_simpleName" = AsepValueUpdate  RegObjectName = /\\CurrentVersion\\Run/i
+| lowercase("RegObjectName") | lowercase("TargetFileName") | lowercase("RegStringValue") | lowercase("FilePath")
+| regex("(?<UsernameInObject>s\-1\-[0-5]\-[0-9\-]+)", field=RegObjectName)
+| replace("s\-1\-[0-5]\-[0-9\-]+", with="\$USERNAME", field=RegObjectName) |replace("\\\\users\\\\[^\\\\]+", with="\\\\users\\\\\$USERNAME", field=TargetFileName) |replace("\\\\users\\\\[^\\\\]+", with="\\\\users\\\\\$USERNAME", field=RegStringValue) |replace("\\\\users\\\\[^\\\\]+", with="\\\\users\\\\\$USERNAME", field=FilePath)
+| groupBy(RegStringValue, function=([count(UserName, distinct=true, as=userCount), count(UsernameInObject, distinct=true, as=userCountFromObject), count(ComputerName, distinct=true, as=systemCount), collect(RegObjectName), collect(FilePath), collect(TargetFileName), collect(TargetSHA256HashData)])) 
 
 
 event_simpleName="AsepValueUpdate" \\\\Run RegStringValue!="" NOT Explorer\\\\StartupApproved\\\\Run 
