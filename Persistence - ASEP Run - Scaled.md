@@ -1,11 +1,14 @@
-LogScale:
+#### LogScale:
+```
 "#event_simpleName" = AsepValueUpdate  RegObjectName = /\\CurrentVersion\\Run/i
 | lowercase("RegObjectName") | lowercase("TargetFileName") | lowercase("RegStringValue") | lowercase("FilePath")
 | regex("(?<UsernameInObject>s\-1\-[0-5]\-[0-9\-]+)", field=RegObjectName)
 | replace("s\-1\-[0-5]\-[0-9\-]+", with="\$USERNAME", field=RegObjectName) |replace("\\\\users\\\\[^\\\\]+", with="\\\\users\\\\\$USERNAME", field=TargetFileName) |replace("\\\\users\\\\[^\\\\]+", with="\\\\users\\\\\$USERNAME", field=RegStringValue) |replace("\\\\users\\\\[^\\\\]+", with="\\\\users\\\\\$USERNAME", field=FilePath)
 | groupBy(RegStringValue, function=([count(UserName, distinct=true, as=userCount), count(UsernameInObject, distinct=true, as=userCountFromObject), count(ComputerName, distinct=true, as=systemCount), collect(RegObjectName), collect(FilePath), collect(TargetFileName), collect(TargetSHA256HashData)])) 
+```
 
-
+#### Falcon EAM 
+```
 event_simpleName="AsepValueUpdate" \\\\Run RegStringValue!="" NOT Explorer\\\\StartupApproved\\\\Run 
 | eval RegStringValueL=lower(RegStringValue)
 | rex field=RegStringValueL mode=sed "s/\\\\users\\\\[^\\\\]+/\\\\users\\\\<R_UsrRSV>/g"
@@ -22,8 +25,10 @@ event_simpleName="AsepValueUpdate" \\\\Run RegStringValue!="" NOT Explorer\\\\St
 | stats  dc(R_UsrRSV) dc(R_UsrFP) dc(R_UsrTFN) dc(R_UsrSIDInPath) dc(ComputerName) AS CompCnt values(RegValueName) values(RegObjectNameL) dc(UserName) AS UsrCnt values(TargetFileNameL)  values(TargetCommandLineParameters) values(TargetSHA256HashData) values(FileName) values(FilePathL)  values(count) values(FirstSeen) values(LastSeen)  by RegStringValueL
 | rename values(*) AS *
 | convert ctime(FirstSeen) ctime(LastSeen)
+```
 
-
+#### Falcon EAM Targeted / Scored
+```
 event_simpleName=Asep* CurrentVersion\\\\Run RegStringValue!=""
 | fillnull value=NULL
 | eval RegStringValueL=lower(RegStringValue)
@@ -51,3 +56,4 @@ event_simpleName=Asep* CurrentVersion\\\\Run RegStringValue!=""
 | rename values(*) AS * 
 | where PCCnt < 5
 | sort - susScore
+```
