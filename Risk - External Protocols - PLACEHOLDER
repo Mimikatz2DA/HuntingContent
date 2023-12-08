@@ -1,1 +1,17 @@
+Egress RDP
+"#event_simpleName" = NetworkConnect*  RPort = "3389" | NOT cidr(RemoteIP, subnet=["10.0.0.0/8" ,"172.16.0.0/12", "192.168.0.0/16"])
+| groupBy(RemoteIP, function=([count(ComputerName, distinct=true, as=systemCount), collect(ComputerName)]))
 
+Ingress RDP (indicative of an unintentially exposed system)
+"#event_simpleName" = NetworkR*  RPort = "3389" | NOT cidr(RemoteIP, subnet=["10.0.0.0/8" ,"172.16.0.0/12", "192.168.0.0/16"])
+| groupBy(RemoteIP, function=([count(ComputerName, distinct=true, as=systemCount), collect(ComputerName)]))
+
+Egress SMB
+
+Ingress SMB
+
+All in one query for risk protocols exposed
+
+authentications from an external address
+
+All network events from the external space aside from protocols expected to be exposed
