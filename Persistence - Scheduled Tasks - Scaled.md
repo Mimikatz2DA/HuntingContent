@@ -5,12 +5,12 @@ To identify persistence through a Scheduled Task using the Falcon event_simpleNa
 #### False Positives:
 Approved tools
 
-####Investigation recommendations:
+#### Investigation recommendations:
 Identify what process and user created the sheduled task to determine who is responsible
 Identify if the commands and file referenced in the task are malicious
 - If so identify where the user who created the scheduled task came from
 
-###Stacking scheduled task by the TaskName
+### Stacking scheduled task by the TaskName
 ```
 "#event_simpleName" = ScheduledTaskRegistered TaskExecCommand != ""
 | replace("\S{8}\-\S{4}\-\S{4}\-\S{4}\-\S{12}", with="\$GUID", field=TaskName)
