@@ -1,0 +1,82 @@
+import re
+import pandas as pd
+from datetime import datetime
+
+def parse_iis_log(log_file_path, output_csv_path):
+    # Regular expression to match IIS log lines (W3C extended format)
+    # Adjust the regex based on your log format (fields may vary)
+    log_pattern = re.compile(
+        r'(\d{4}-\d{2}-\d{2})\s+(\d{2}:\d{2}:\d{2})\s(\S+)\s(\S+)\s(\S+)\s(\S+)\s(\S+)\s(\S+)(\.\S+)\s(\S+)\s(\S+)\s(\S+)\s(\S+)\s(\S+)\s(.*)(http.*)?'
+    )
+    # List to store parsed log entries
+    log_entries = []
+
+    # Fields expected in the log (adjust based on your log's #Fields directive)
+    fields = [
+        'datetime', 'client_ip', 'cs_username', 's_computername', 'client_ip', 'method', 'uri_stem', 'uri_extension',
+        'status_code', 'bytes_sent', 'bytes_received', 'user_agent',
+        'referer', 'server_ip'
+    ]
+    try:
+        with open(log_file_path, 'r', encoding='utf-8') as file:
+            for line in file:
+                # Skip comments and empty lines
+                if line.startswith('#') or not line.strip():
+                    continue
+
+                # Match the log line
+                match = log_pattern.match(line.strip())
+                if match:
+
+
+                    # Extract fields
+                    entry = {
+                        'date': match.group(1),
+                        'time': match.group(2),
+                        'server_ip': match.group(3),
+                        'cs_username': match.group(4),
+                        's_computername': match.group(5),
+                        'client_ip': match.group(6),
+                        'method': match.group(7),
+                        'uri_stem': match.group(8),
+                        'uri_extension': match.group(9),
+                        'slash': match.group(10),
+                        'status_code': match.group(11),
+                        'bytes_sent': match.group(12),
+                        'bytes_received': match.group(13),
+                        'cs_version': match.group(14),
+                        'user_agent': match.group(15),
+                        'referer': match.group(16)
+                    }
+                    log_entries.append(entry)
+                else:
+                    print(f"Skipping malformed line: {line.strip()}")
+
+        # Create a DataFrame from the parsed entries
+        if log_entries:
+            df = pd.DataFrame(log_entries)
+            # Combine date and time into a single datetime column
+            df['datetime'] = pd.to_datetime(df['date'] + ' ' + df['time'])
+            # Drop separate date and time columns
+            df = df.drop(columns=['date', 'time'])
+            # Reorder columns for clarity
+            df = df[['datetime', 'client_ip', 'cs_username', 's_computername', 'client_ip', 'method', 'uri_stem','uri_extension',
+                     'status_code', 'bytes_sent', 'bytes_received', 'user_agent',
+                     'referer', 'server_ip']]
+            # Save to CSV
+            df.to_csv(output_csv_path, index=False)
+            print(f"Parsed log saved to {output_csv_path}")
+        else:
+            print("No valid log entries found.")
+
+    except FileNotFoundError:
+        print(f"Error: Log file {log_file_path} not found.")
+    except Exception as e:
+        print(f"Error processing log file: {str(e)}")
+
+# Example usage
+if __name__ == "__main__":
+    log_file = "/Users/dalcerro/PyCharmMiscProject/logs/scratch_1.txt"  # Replace with your log file path
+    output_csv = "parsed_iis_log.csv"           # Output CSV file
+    parse_iis_log(log_file, output_csv)
+
